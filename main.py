@@ -168,5 +168,3 @@ sistemaVotacion = SistemaVotacion(listas, votantes, FECHA, listaVotos)
 print(sistemaVotacion.controlVotaciones())
 sistemaVotacion.controlVotaciones()
 print(sistemaVotacion.estadoDeVotos)
-
-for can
