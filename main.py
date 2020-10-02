@@ -165,6 +165,12 @@ listaVotos = generarVotos()
 
 sistemaVotacion = SistemaVotacion(listas, votantes, FECHA, listaVotos)
 
-print(sistemaVotacion.controlVotaciones())
+# Calculamos cuantos votos fueron blancos/impugnados/validos
 sistemaVotacion.controlVotaciones()
+# Mostramos las cantidades de votos en blancos/impugnados/validos
 print(sistemaVotacion.estadoDeVotos)
+
+sistemaVotacion.porcentajeCandidato()
+sistemaVotacion.mostrarPorcentajeCandidatos()
+
+print(sistemaVotacion.buscarGanador())
