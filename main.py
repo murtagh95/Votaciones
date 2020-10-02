@@ -1,4 +1,5 @@
 from clases import *
+from sistemaVotacion import SistemaVotacion
 from random import randint
 
 
@@ -165,4 +166,7 @@ listaVotos = generarVotos()
 sistemaVotacion = SistemaVotacion(listas, votantes, FECHA, listaVotos)
 
 print(sistemaVotacion.controlVotaciones())
-print(sistemaVotacion.porcentajeCandidato())
+sistemaVotacion.controlVotaciones()
+print(sistemaVotacion.estadoDeVotos)
+
+for can
