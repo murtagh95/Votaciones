@@ -8,7 +8,8 @@ class SistemaVotacion():
         self.fecha = fecha
         self.votos = votos
         self.estadoDeVotos = None
-        self.listaPorcentaje = []
+        self.listaPorcentaje = None
+        self.listaCantidadVotos = None
 
     def controlVotaciones(self):
         # Declaro variables auxiliares
@@ -33,26 +34,28 @@ class SistemaVotacion():
         }
     
     def porcentajeCandidato(self):
-        listaPorcentaje = [0,0,0,0]
+        # Creo un diccionario cuyas keys seran el nº de lista de cada Partido politico
+        lista1 = {
+            self.listas[0].numLista : 0,
+            self.listas[1].numLista : 0,
+            self.listas[2].numLista : 0,
+            self.listas[3].numLista : 0,
+        }
         
         # Recorro los votos
         for voto in self.votos:
             # Controlo que solo se sumen los votos validos
             if voto.valido:
                 # Controlo a que lista corresponde el voto
-                if voto.lista.numLista == self.listas[0].numLista:
-                    listaPorcentaje[0] += 1
-                elif voto.lista.numLista == self.listas[1].numLista:
-                    listaPorcentaje[1] += 1
-                elif voto.lista.numLista == self.listas[2].numLista:
-                    listaPorcentaje[2] += 1
-                else:
-                    listaPorcentaje[3] += 1
+                lista1[voto.lista.numLista] += 1
         
+        self.listaCantidadVotos = lista1
+        listaPorcentaje = lista1.copy()
+
         # Cambio el nº de votos por porcentaje
-        for i in range(len(listaPorcentaje)):
-            listaPorcentaje[i] = ((listaPorcentaje[i] * 100) / len(self.votos))
-            listaPorcentaje[i] = round(listaPorcentaje[i], 2)
+        for clave in lista1.keys():
+            listaPorcentaje[clave] = ((listaPorcentaje[clave] * 100) / self.estadoDeVotos["Validos"])
+            listaPorcentaje[clave] = round(listaPorcentaje[clave], 2)
         
         # Asigno el valor al atributo del objeto
         self.listaPorcentaje = listaPorcentaje
@@ -60,19 +63,27 @@ class SistemaVotacion():
     def mostrarPorcentajeCandidatos(self):
         # Controlamos si se puede mostrar, ya que depende de ya haber calculado el porcentajeCandidato
         try:
+            print("Candidatos\t|\tVotos\t|\tPorcentaje")
             for i in range(len(self.listas)):
-                print("El candidato: ", self.listas[i].candidatos[0].nombre, "obtuvo", self.listaPorcentaje[i], "% votos.")
+                print("{}\t\t|\t{}\t|\t{}%.".format(
+                    self.listas[i].candidatos[0].nombre,
+                    self.listaCantidadVotos[self.listas[i].numLista],
+                    self.listaPorcentaje[self.listas[i].numLista]
+                ))
         except:
             print("Error, para mostrar primero se debe realizar el calculo")
         
     def buscarGanador(self):
         # Defino variable aux
         listaGanadora = []
+        contador = 0
 
         # Verifico los candidatos con más del 40% de votos
-        for i in range(len(self.listaPorcentaje)):
-            if self.listaPorcentaje[i] > 40:
-                listaGanadora.append(self.listas[i])
+        for clave in self.listaPorcentaje.keys():
+            if self.listaPorcentaje[clave] > 40:
+                listaGanadora.append(self.listas[contador])
+                listaGanadora.append(self.listaPorcentaje[clave])
+            contador += 1
 
         # Controlo si ningun candidato saco mas del 40%
         if len(listaGanadora) == False:
@@ -81,34 +92,50 @@ class SistemaVotacion():
             indiceSegundoMayor = 0
 
             # Busco el mayor porcentaje
-            for i in range(len(self.listaPorcentaje)):
-                if self.listaPorcentaje[i] > mayor:
-                    mayor = self.listaPorcentaje[i]
+            for clave in self.listaPorcentaje.keys():
+                if self.listaPorcentaje[clave] > mayor:
+                    mayor = self.listaPorcentaje[clave]
                     indiceMayor = i
             # Busco el segundo mayor porcentaje
             mayor = 0
-            for i in range(len(self.listaPorcentaje)):
-                if self.listaPorcentaje[i] > mayor and self.listaPorcentaje[i] != self.listaPorcentaje[indiceMayor]:
+            # Cambio el indice mayor por una clave
+            claveMayor =  self.listas[indiceMayor].numLista
+
+            for clave in self.listaPorcentaje.keys():
+                if self.listaPorcentaje[clave] > mayor and self.listaPorcentaje[clave] != self.listaPorcentaje[claveMayor]:
                     mayor = self.listaPorcentaje[i]
                     indiceSegundoMayor = i
             
-                
-        return """Los 2 candidatos que tendran que ir a la segunda vuelta son: 
+            return """Los 2 candidatos que tendran que ir a la segunda vuelta son: 
                     -Candidao: {}, con {}% de votos.
                     -Candidao: {}, con {}% de votos.""".format(
             self.listas[indiceMayor].candidatos[0].nombre,
-            self.listaPorcentaje[indiceMayor],
+            self.listaPorcentaje[claveMayor],
             self.listas[indiceSegundoMayor].candidatos[0].nombre,
-            self.listaPorcentaje[indiceSegundoMayor],
+            self.listaPorcentaje[self.listas[indiceSegundoMayor].numLista],
             )
+        else:
+            return "El ganador es: {}, con {}% de votos".format(listaGanadora[0].candidatos[0].nombre , listaGanadora[1])
 
- 
     def imprimirNoVotantes(self):
         for votante in self.votantes:
             if not(votante.voto):
                 print("El siguiente votante no voto:")
                 print(votante)
 
+    def calcularConsejales(self):
+        # Arrey que contendra los consejales ganadores
+        consejalesGanadores = []
+        contador = 0
 
-        
+        # Recorro el atributo que almacena la cantidad de votos por cada lista
+        for clave in self.listaCantidadVotos.keys():
+            cantidad = self.listaCantidadVotos[clave] // 60
+            for j in range(cantidad):
+                consejalesGanadores.append(self.listas[contador].candidatos[j+1])
+            
+            contador = contador + 1
 
+        print("Consejales Ganadores:")
+        for consejal in consejalesGanadores:
+            print("- ", consejal.nombre)

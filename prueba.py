@@ -10,5 +10,9 @@ from random import choice
 porcNoVotantes = choice([15, 16, 17, 18, 19, 20])
 cantidadNoVotantes = (porcNoVotantes * 500) / 100
 
-print(porcNoVotantes)
-print(cantidadNoVotantes)
+# print(porcNoVotantes)
+# print(cantidadNoVotantes)
+
+num = 119 / 60
+print(round(num))
+print(119 // 60)

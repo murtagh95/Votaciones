@@ -198,28 +198,29 @@ def generarCandidatos():
     return lista
 
 def generarVotos(votantes, listas):
-	listaVotos = []
-	# Lista que permitira crear con desigualdad los votos
-	# impugnados = 1%, blacos = 10%, validos = 89%
-	my_list = [2] * 1 + [1] * 10 + [3] * 89
-	numAlAzar = 0
+    listaVotos = []
+    # Lista que permitira crear con desigualdad los votos
+    # impugnados = 1%, blacos = 10%, validos = 89%
+    my_list = [2] * 1 + [1] * 10 + [3] * 89
+    numAlAzar = 0   
+    # Genero que cantidad de personas que no votaran
+    porcNoVotantes = choice([15, 16, 17, 18, 19, 20])
+    cantidadNoVotantes = (porcNoVotantes * len(votantes)) / 100
+    contador = 0
 
-	# Genero que cantidad de personas que no votaran
-	porcNoVotantes = choice([15, 16, 17, 18, 19, 20])
-	cantidadNoVotantes = (porcNoVotantes * len(votantes)) / 100
-	contador = 0
-	for votante in votantes:
-		azar = choice([1, 2, 2, 2])
-		if azar == 1 and contador <= cantidadNoVotantes:
-			contador+= 1
-		else:
-			votante.voto = True
-			numAlAzar = choice(my_list)
-			if numAlAzar == 1:
-				listaVotos.append(Voto(listas[randint(0,3)],True, False, False))
-			elif numAlAzar == 2:
-				listaVotos.append(Voto(listas[randint(0,3)],False, True, False))
-			else:
-				listaVotos.append(Voto(listas[randint(0,3)],False, False, True))
-	
-	return listaVotos
+    # Genero un arrey para que las votaciones a una determinada lista no sea pareja
+    elejirLista = [0] * 45 + [1] * 35 + [2] * 10 + [3] * 10
+    for votante in votantes:
+        azar = choice([1, 2, 2, 2])
+        if azar == 1 and contador <= cantidadNoVotantes:
+            contador+= 1
+        else:
+            votante.voto = True
+            numAlAzar = choice(my_list)
+            if numAlAzar == 1:
+                listaVotos.append(Voto(listas[choice(elejirLista)],True, False, False))
+            elif numAlAzar == 2:
+                listaVotos.append(Voto(listas[choice(elejirLista)],False, True, False))
+            else:
+                listaVotos.append(Voto(listas[choice(elejirLista)],False, False, True))
+    return listaVotos
