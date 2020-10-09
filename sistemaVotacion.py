@@ -52,6 +52,7 @@ class SistemaVotacion():
         # Cambio el nº de votos por porcentaje
         for i in range(len(listaPorcentaje)):
             listaPorcentaje[i] = ((listaPorcentaje[i] * 100) / len(self.votos))
+            listaPorcentaje[i] = round(listaPorcentaje[i], 2)
         
         # Asigno el valor al atributo del objeto
         self.listaPorcentaje = listaPorcentaje
@@ -63,7 +64,6 @@ class SistemaVotacion():
                 print("El candidato: ", self.listas[i].candidatos.nombre, "obtuvo", self.listaPorcentaje[i], "% votos.")
         except:
             print("Error, para mostrar primero se debe realizar el calculo")
-
         
     def buscarGanador(self):
         # Defino variable aux
@@ -103,7 +103,11 @@ class SistemaVotacion():
             )
 
  
-
+    def imprimirNoVotantes(self):
+        for votante in self.votantes:
+            if not(votante.voto):
+                print("El siguiente votante no voto:")
+                print(votante)
 
 
         
