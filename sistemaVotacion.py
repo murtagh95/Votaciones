@@ -1,4 +1,5 @@
 from clases import *
+from funciones import PORC_NO_VOTANTES
 
 
 class SistemaVotacion():
@@ -10,6 +11,11 @@ class SistemaVotacion():
         self.estadoDeVotos = None
         self.listaPorcentaje = None
         self.listaCantidadVotos = None
+        self.votacionValida = False
+
+        # Ejecuto 2 métodos fundamentales
+        self.controlVotaciones()
+        self.calcularVotacionValida()
 
     def controlVotaciones(self):
         # Declaro variables auxiliares
@@ -87,6 +93,7 @@ class SistemaVotacion():
 
         # Controlo si ningun candidato saco mas del 40%
         if len(listaGanadora) == False:
+            contador = 0
             mayor = 0
             indiceMayor = 0
             indiceSegundoMayor = 0
@@ -95,16 +102,20 @@ class SistemaVotacion():
             for clave in self.listaPorcentaje.keys():
                 if self.listaPorcentaje[clave] > mayor:
                     mayor = self.listaPorcentaje[clave]
-                    indiceMayor = i
+                    indiceMayor = contador
+                contador += 1
+
             # Busco el segundo mayor porcentaje
             mayor = 0
+            contador = 0
             # Cambio el indice mayor por una clave
             claveMayor =  self.listas[indiceMayor].numLista
 
             for clave in self.listaPorcentaje.keys():
                 if self.listaPorcentaje[clave] > mayor and self.listaPorcentaje[clave] != self.listaPorcentaje[claveMayor]:
-                    mayor = self.listaPorcentaje[i]
-                    indiceSegundoMayor = i
+                    mayor = self.listaPorcentaje[clave]
+                    indiceSegundoMayor = contador
+                contador += 1
             
             return """Los 2 candidatos que tendran que ir a la segunda vuelta son: 
                     -Candidao: {}, con {}% de votos.
@@ -139,3 +150,16 @@ class SistemaVotacion():
         print("Consejales Ganadores:")
         for consejal in consejalesGanadores:
             print("- ", consejal.nombre)
+
+    def calcularVotacionValida(self):
+        # Convierto el porcentaje de no votantes a un nº
+        cantidadNoVotantes = (PORC_NO_VOTANTES * len(self.votantes)) / 100
+
+        suma = cantidadNoVotantes + self.estadoDeVotos["Blancos"] + self.estadoDeVotos["Impugnados"]
+        porcentaje = (suma * 100) / len(self.votantes)
+        
+        if porcentaje <= 50:
+            self.votacionValida = True
+        
+        else:
+            print("Votacion invalida. La porcentaje de personas que no votaron es de ", porcentaje, "%")

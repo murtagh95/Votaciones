@@ -4,6 +4,8 @@ from random import randint, choice
 
 FECHA = Fecha(15, 5, 2019)
 CANTIDAD_VOTANTES = 500
+# Genero que cantidad de personas que no votaran
+PORC_NO_VOTANTES = choice([15, 16, 17, 18, 19, 20])
 
 DIRECCIONES = (
 	# BARRIO LA BLORIA
@@ -136,7 +138,6 @@ def generarVotantes():
 	
 	return votantes
 
-
 def generarCandidatos():
     lista = []
     lista300 = []
@@ -203,9 +204,9 @@ def generarVotos(votantes, listas):
     # impugnados = 1%, blacos = 10%, validos = 89%
     my_list = [2] * 1 + [1] * 10 + [3] * 89
     numAlAzar = 0   
-    # Genero que cantidad de personas que no votaran
-    porcNoVotantes = choice([15, 16, 17, 18, 19, 20])
-    cantidadNoVotantes = (porcNoVotantes * len(votantes)) / 100
+    
+    # Convierto el porcentaje de no votantes a un nº
+    cantidadNoVotantes = (PORC_NO_VOTANTES * len(votantes)) / 100
     contador = 0
 
     # Genero un arrey para que las votaciones a una determinada lista no sea pareja
