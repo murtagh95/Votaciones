@@ -61,7 +61,7 @@ class SistemaVotacion():
         # Controlamos si se puede mostrar, ya que depende de ya haber calculado el porcentajeCandidato
         try:
             for i in range(len(self.listas)):
-                print("El candidato: ", self.listas[i].candidatos.nombre, "obtuvo", self.listaPorcentaje[i], "% votos.")
+                print("El candidato: ", self.listas[i].candidatos[0].nombre, "obtuvo", self.listaPorcentaje[i], "% votos.")
         except:
             print("Error, para mostrar primero se debe realizar el calculo")
         
@@ -96,9 +96,9 @@ class SistemaVotacion():
         return """Los 2 candidatos que tendran que ir a la segunda vuelta son: 
                     -Candidao: {}, con {}% de votos.
                     -Candidao: {}, con {}% de votos.""".format(
-            self.listas[indiceMayor].candidatos.nombre,
+            self.listas[indiceMayor].candidatos[0].nombre,
             self.listaPorcentaje[indiceMayor],
-            self.listas[indiceSegundoMayor].candidatos.nombre,
+            self.listas[indiceSegundoMayor].candidatos[0].nombre,
             self.listaPorcentaje[indiceSegundoMayor],
             )
 

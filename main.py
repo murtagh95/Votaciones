@@ -22,3 +22,5 @@ print(sistemaVotacion.buscarGanador())
 # Imprimimos los votantes que no asistieron a la votación
 # sistemaVotacion.imprimirNoVotantes()
 
+for lista in listas:
+	print(lista)
