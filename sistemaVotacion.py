@@ -156,5 +156,22 @@ class SistemaVotacion():
             self.votacionValida = True
         else :
             self.votacionValida = False
+        print("No votantes", cantidadNoVotantes)
 
-       
+    def buscarNoVotantes(self):
+        """ Devuelve un array todos los votatnes que no votaron """
+        reveldes = []
+
+        for noVotantes in self.votantes:
+            if not(noVotantes.voto):
+                reveldes.append(noVotantes)
+
+        return reveldes
+
+    def buscarDNI(self, dniAbuscar):
+        dniAbuscar = int(dniAbuscar)
+        for votante in self.votantes:
+            if votante.dni == dniAbuscar:
+                return votante
+        
+        return "DNI no encontrado"

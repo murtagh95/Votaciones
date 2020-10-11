@@ -226,7 +226,7 @@ def candidatosAzar():
 			listaFinal.extend([listaAlAzar[i]] * 10)
 	return listaFinal
 
-def generarVotos(votantes, listas):
+def generarVotos(votantes, listas, porcNoVotantes=PORC_NO_VOTANTES):
     listaVotos = []
     # Lista que permitira crear con desigualdad los votos
     # impugnados = 1%, blacos = 10%, validos = 89%
@@ -234,15 +234,15 @@ def generarVotos(votantes, listas):
     numAlAzar = 0   
     
     # Convierto el porcentaje de no votantes a un nº
-    cantidadNoVotantes = (PORC_NO_VOTANTES * len(votantes)) / 100
+    cantidadNoVotantes = (porcNoVotantes * len(votantes)) / 100
     contador = 0
 
     # Genero un arrey para que las votaciones a una determinada lista no sea pareja
     elejirLista = candidatosAzar()
     for votante in votantes:
 		# Variable para que los no votantes sean al azars
-        azar = choice([1, 2, 2, 2])
-        if azar == 1 and contador <= cantidadNoVotantes:
+        azar = choice([1, 2, 2])
+        if azar == 1 and contador < cantidadNoVotantes:
             contador+= 1
         else:
             votante.voto = True
@@ -253,4 +253,6 @@ def generarVotos(votantes, listas):
                 listaVotos.append(Voto(listas[choice(elejirLista)],False, True, False))
             else:
                 listaVotos.append(Voto(listas[choice(elejirLista)],False, False, True))
+
     return listaVotos
+    

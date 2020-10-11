@@ -11,14 +11,15 @@ sistemaVotacion = SistemaVotacion(listas, votantes, FECHA, listaVotos)
 sistemaVotacion.porcentajeCandidato()
 
 def reiniciar(raiz):
-    global sistemaVotacion
+    global sistemaVotacion, listaVotos, votantes
+    nuevoNumNoVotante = cambiarPorcNoVotantes()
 
-    listaVotos = generarVotos(votantes, listas)
-    listaVotos = generarVotos(votantes, listas)
+    votantes = generarVotantes()
+    listaVotos = generarVotos(votantes, listas, nuevoNumNoVotante)
     sistemaVotacion = SistemaVotacion(listas, votantes, FECHA, listaVotos)
     sistemaVotacion.porcentajeCandidato()
     
-    sistemaVotacion.calcularVotacionValida(cambiarPorcNoVotantes())    
+    sistemaVotacion.calcularVotacionValida(nuevoNumNoVotante)    
     
     raiz.destroy()
     ventanaPrincipal()
@@ -28,7 +29,7 @@ def ventanaPrincipal():
     # Creo la ventana   
     raiz = Tk()
     raiz.title("Votaciónes")
-    raiz.geometry("400x400")
+    raiz.geometry("400x480")
     raiz.resizable(0,0)
     raiz.config(bg="#8eedd2")
 
@@ -59,11 +60,23 @@ def ventanaPrincipal():
         botonVerConsejales.config(padx="5", pady="5")
         botonVerConsejales.grid(row=5, column=0)
 
-        Label(miFrame1, bg="#8eedd2").grid(row=6, column=0)
-        Label(miFrame1, bg="#8eedd2").grid(row=7, column=0)
-        Label(miFrame1, bg="#8eedd2").grid(row=8, column=0)
+        botonVerNoVotantes = Button(miFrame1, text="Ver personas que no votaron", command=lambda:verNoVotantes(raiz, sistemaVotacion), bg="#f26e50")
+        botonVerNoVotantes.config(padx="5", pady="5")
+        botonVerNoVotantes.grid(row=6, column=0)
+
+        botonVerNoVotantes = Button(miFrame1, text="Ver total de votantes", command=lambda:verVotantes(raiz, sistemaVotacion), bg="#f26e50")
+        botonVerNoVotantes.config(padx="5", pady="5")
+        botonVerNoVotantes.grid(row=7, column=0)
+
+        botonVerNoVotantes = Button(miFrame1, text="Buscar persona por el DNI", command=lambda:buscarPorDNI(raiz, sistemaVotacion), bg="#f26e50")
+        botonVerNoVotantes.config(padx="5", pady="5")
+        botonVerNoVotantes.grid(row=8, column=0)
+
         Label(miFrame1, bg="#8eedd2").grid(row=9, column=0)
         Label(miFrame1, bg="#8eedd2").grid(row=10, column=0)
+        Label(miFrame1, bg="#8eedd2").grid(row=11, column=0)
+        Label(miFrame1, bg="#8eedd2").grid(row=12, column=0)
+        Label(miFrame1, bg="#8eedd2").grid(row=13, column=0)
 
     else:
         eleguirLabel = Label(miFrame1, text="Votación invalida, por favor realizar una nueva votación", bg="#8eedd2")
@@ -71,7 +84,7 @@ def ventanaPrincipal():
 
     botonReiniciar = Button(miFrame1, text="Reiniciar las votaciones", command=lambda : reiniciar(raiz), bg="#f26e50")
     botonReiniciar.config(padx="5", pady="5")
-    botonReiniciar.grid(row=11, column=0)
+    botonReiniciar.grid(row=14, column=0)
 
 
 
