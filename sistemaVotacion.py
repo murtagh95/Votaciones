@@ -117,22 +117,14 @@ class SistemaVotacion():
                     indiceSegundoMayor = contador
                 contador += 1
             
-            return """Los 2 candidatos que tendran que ir a la segunda vuelta son: 
-                    -Candidao: {}, con {}% de votos.
-                    -Candidao: {}, con {}% de votos.""".format(
-            self.listas[indiceMayor].candidatos[0].nombre,
-            self.listaPorcentaje[claveMayor],
-            self.listas[indiceSegundoMayor].candidatos[0].nombre,
-            self.listaPorcentaje[self.listas[indiceSegundoMayor].numLista],
-            )
+            return [
+                self.listas[indiceMayor],
+                self.listaPorcentaje[claveMayor],
+                self.listas[indiceSegundoMayor],
+                self.listaPorcentaje[self.listas[indiceSegundoMayor].numLista],
+            ]
         else:
-            return "El ganador es: {}, con {}% de votos".format(listaGanadora[0].candidatos[0].nombre , listaGanadora[1])
-
-    def imprimirNoVotantes(self):
-        for votante in self.votantes:
-            if not(votante.voto):
-                print("El siguiente votante no voto:")
-                print(votante)
+            return listaGanadora
 
     def calcularConsejales(self):
         # Arrey que contendra los consejales ganadores
@@ -143,23 +135,26 @@ class SistemaVotacion():
         for clave in self.listaCantidadVotos.keys():
             cantidad = self.listaCantidadVotos[clave] // 60
             for j in range(cantidad):
-                consejalesGanadores.append(self.listas[contador].candidatos[j+1])
+                consejalesGanadores.append({
+                    "candidato" : self.listas[contador].candidatos[j+1],
+                    "lista" : self.listas[contador]
+                    })
             
             contador = contador + 1
 
-        print("Consejales Ganadores:")
-        for consejal in consejalesGanadores:
-            print("- ", consejal.nombre)
+        
+        return consejalesGanadores
 
-    def calcularVotacionValida(self):
+    def calcularVotacionValida(self, porcen = PORC_NO_VOTANTES):
         # Convierto el porcentaje de no votantes a un nº
-        cantidadNoVotantes = (PORC_NO_VOTANTES * len(self.votantes)) / 100
+        cantidadNoVotantes = (porcen * len(self.votantes)) / 100
 
         suma = cantidadNoVotantes + self.estadoDeVotos["Blancos"] + self.estadoDeVotos["Impugnados"]
         porcentaje = (suma * 100) / len(self.votantes)
         
         if porcentaje <= 50:
             self.votacionValida = True
-        
-        else:
-            print("Votacion invalida. La porcentaje de personas que no votaron es de ", porcentaje, "%")
+        else :
+            self.votacionValida = False
+
+       

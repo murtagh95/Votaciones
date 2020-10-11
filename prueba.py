@@ -1,18 +1,23 @@
 from random import choice
 
-# lista= [1,2,3,4,5,6,7,8,9]
+lista = [0, 1, 2, 3]
+listaFinal = []
+listaAlAzar = []
 
-# print(choice(lista))
-# my_list = [2] * 1 + [1] * 10 + [3] * 89
-# print(my_list)
-# print(my_list.count(3))
+for i in range(4):
+    num = choice(lista)
+    listaAlAzar.append(num)
+    lista.remove(num)
 
-porcNoVotantes = choice([15, 16, 17, 18, 19, 20])
-cantidadNoVotantes = (porcNoVotantes * 500) / 100
+for i in range(4):
+	if i == 0:
+		listaFinal.extend([listaAlAzar[i]] * 45)
+	elif i == 1:
+	    listaFinal.extend([listaAlAzar[i]] * 35)
+	else:
+		listaFinal.extend([listaAlAzar[i]] * 10)
 
-# print(porcNoVotantes)
-# print(cantidadNoVotantes)
-
-num = 119 / 60
-print(round(num))
-print(119 // 60)
+print("Lista final",listaFinal.count(0))
+print("Lista final",listaFinal.count(1))
+print("Lista final",listaFinal.count(2))
+print("Lista final",listaFinal.count(3))

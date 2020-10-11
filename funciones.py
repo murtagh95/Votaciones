@@ -5,7 +5,7 @@ from random import randint, choice
 FECHA = Fecha(15, 5, 2019)
 CANTIDAD_VOTANTES = 500
 # Genero que cantidad de personas que no votaran
-PORC_NO_VOTANTES = choice([15, 16, 17, 18, 19, 20])
+PORC_NO_VOTANTES = choice([15, 16, 17, 18, 19, 20, 50])
 
 DIRECCIONES = (
 	# BARRIO LA BLORIA
@@ -94,6 +94,15 @@ APELLIDOS =(
 	"Manna",
 	"Brizuela"
 )
+
+def cambiarPorcNoVotantes():
+	global PORC_NO_VOTANTES
+
+	azar =  choice([15, 16, 17, 18, 19, 20, 50])
+
+	PORC_NO_VOTANTES = azar
+	
+	return azar
 
 
 def controlBarrio(barrio):
@@ -198,6 +207,25 @@ def generarCandidatos():
 
     return lista
 
+def candidatosAzar():
+	lista = [0, 1, 2, 3]
+	listaAlAzar = []
+	listaFinal = []
+
+	for i in range(4):
+		num = choice(lista)
+		listaAlAzar.append(num)
+		lista.remove(num)
+	
+	for i in range(4):
+		if i == 0:
+			listaFinal.extend([listaAlAzar[i]] * 45)
+		elif i == 1:
+			listaFinal.extend([listaAlAzar[i]] * 35)
+		else:
+			listaFinal.extend([listaAlAzar[i]] * 10)
+	return listaFinal
+
 def generarVotos(votantes, listas):
     listaVotos = []
     # Lista que permitira crear con desigualdad los votos
@@ -210,8 +238,9 @@ def generarVotos(votantes, listas):
     contador = 0
 
     # Genero un arrey para que las votaciones a una determinada lista no sea pareja
-    elejirLista = [0] * 45 + [1] * 35 + [2] * 10 + [3] * 10
+    elejirLista = candidatosAzar()
     for votante in votantes:
+		# Variable para que los no votantes sean al azars
         azar = choice([1, 2, 2, 2])
         if azar == 1 and contador <= cantidadNoVotantes:
             contador+= 1
