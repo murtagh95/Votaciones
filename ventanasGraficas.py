@@ -1,5 +1,6 @@
 from tkinter import *
 
+
 def controlVotos(raiz, sistemaVotacion):
     
     # Creo una segunda ventana
@@ -34,8 +35,6 @@ def controlVotos(raiz, sistemaVotacion):
     textoLabel = sistemaVotacion.estadoDeVotos["Validos"]
     BlancosValorLabel = Label(miFrame1, text=textoLabel, bg="#8eedd2")
     BlancosValorLabel.grid(row=2, column=2, padx=10, pady=10)
-
-
 
 def votosCandidatos(raiz, sistemaVotacion):
     
@@ -313,9 +312,9 @@ def limpar(miFrame1):
 
     Label(miFrame1, text="\t\t", bg="#8eedd2").grid(row=3, column=1, padx=10, pady=10)
  
-    Label(miFrame1, text="\t\t", bg="#8eedd2").grid(row=3, column=2, padx=10, pady=10)
+    Label(miFrame1, text="\t", bg="#8eedd2").grid(row=3, column=2, padx=10, pady=10)
 
-    Label(miFrame1, text="\t\t", bg="#8eedd2").grid(row=3, column=3, padx=10, pady=10)
+    Label(miFrame1, text="\t", bg="#8eedd2").grid(row=3, column=3, padx=10, pady=10)
 
     Label(miFrame1, text="\t\t\t\t", bg="#8eedd2").grid(row=3, column=4, padx=10, pady=10)
     print("limpieza")
@@ -348,7 +347,7 @@ def buscarPorDNI(raiz, sistemaVotacion):
     # Creo una segunda ventana
     segundaVentana = Toplevel(raiz)
     segundaVentana.resizable(0,0)
-    segundaVentana.geometry("650x200")
+    segundaVentana.geometry("750x200")
     segundaVentana.config(bg="#8eedd2")
 
     miFrame1 = Frame(segundaVentana, bg="#8eedd2")

@@ -3,6 +3,7 @@ from sistemaVotacion import SistemaVotacion
 from tkinter import *
 from ventanasGraficas import *
 
+
 # Genero los datos
 votantes = generarVotantes()
 listas = generarCandidatos()

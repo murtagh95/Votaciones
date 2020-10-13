@@ -104,7 +104,6 @@ def cambiarPorcNoVotantes():
 	
 	return azar
 
-
 def controlBarrio(barrio):
 	""" Función que permite asignar una escuela para la votación segun el barrio de residencia """
 
@@ -248,11 +247,11 @@ def generarVotos(votantes, listas, porcNoVotantes=PORC_NO_VOTANTES):
             votante.voto = True
             numAlAzar = choice(my_list)
             if numAlAzar == 1:
-                listaVotos.append(Voto(listas[choice(elejirLista)],True, False, False))
+                listaVotos.append(Voto(listas[choice(elejirLista)], blanco= True))
             elif numAlAzar == 2:
-                listaVotos.append(Voto(listas[choice(elejirLista)],False, True, False))
+                listaVotos.append(Voto(listas[choice(elejirLista)], impugnado = True))
             else:
-                listaVotos.append(Voto(listas[choice(elejirLista)],False, False, True))
+                listaVotos.append(Voto(listas[choice(elejirLista)], valido = True))
 
     return listaVotos
     

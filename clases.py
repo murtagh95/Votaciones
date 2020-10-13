@@ -100,7 +100,7 @@ class Lista():
 
 
 class Voto():
-    def __init__(self, lista, blanco, impugnado, valido):
+    def __init__(self, lista, blanco = False, impugnado = False, valido = False):
         self.lista = lista
         self.blanco = blanco
         self.impugnado = impugnado
