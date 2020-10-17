@@ -5,7 +5,7 @@ from random import randint, choice
 
 
 # Genero que cantidad de personas que no votaran
-LISTA_NO_VOTANTES = [15, 16, 17, 18, 19, 20, 50]
+LISTA_NO_VOTANTES = (15, 16, 17, 18, 19, 20, 50)
 porc_no_votantes = choice(LISTA_NO_VOTANTES)
 
 def cambiarPorcNoVotantes():
