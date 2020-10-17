@@ -1,5 +1,5 @@
 from clases import *
-from funciones import PORC_NO_VOTANTES
+from funciones.generarVotos import porc_no_votantes 
 
 
 class SistemaVotacion():
@@ -145,7 +145,7 @@ class SistemaVotacion():
         
         return consejalesGanadores
 
-    def calcularVotacionValida(self, porcen = PORC_NO_VOTANTES):
+    def calcularVotacionValida(self, porcen = porc_no_votantes):
         # Convierto el porcentaje de no votantes a un nº
         cantidadNoVotantes = (porcen * len(self.votantes)) / 100
 
@@ -156,7 +156,6 @@ class SistemaVotacion():
             self.votacionValida = True
         else :
             self.votacionValida = False
-        print("No votantes", cantidadNoVotantes)
 
     def buscarNoVotantes(self):
         """ Devuelve un array todos los votatnes que no votaron """

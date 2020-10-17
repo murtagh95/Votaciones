@@ -1,158 +1,17 @@
-from clases import *
-from random import randint, choice
+# Importo modulos propios
+from clases.candidato import Candidato
+from clases.lista import Lista
+from clases.partidoPolitico import PartidoPolitico
+from funciones.generarVotantes import DIRECCIONES, controlBarrio
 
 
-FECHA = Fecha(15, 5, 2019)
-CANTIDAD_VOTANTES = 500
-# Genero que cantidad de personas que no votaran
-PORC_NO_VOTANTES = choice([15, 16, 17, 18, 19, 20, 50])
-
-DIRECCIONES = (
-	# BARRIO LA BLORIA
-	Direccion("Rawson", 0, "La Gloria"),
-	Direccion("Puerto San Jose", 0, "La Gloria"),
-	Direccion("Bahía Aguirre", 0, "La Gloria"),
-	Direccion("Puerto Concepción", 0, "La Gloria"),
-	Direccion("Bahía Ushuaia", 0, "La Gloria"),
-	Direccion("Puerto año nuevo", 0, "La Gloria"),
-	Direccion("Vélez Sarfield", 0, "La Gloria"),
-	# BARRIO FUCH
-	Direccion("Laguna Palena", 0, "Fuch"),
-	Direccion("Lago Hermoso", 0, "Fuch"),
-	Direccion("Lago Correntoso", 0, "Fuch"),
-	Direccion("Laguna de la esquina", 0, "Fuch"),
-	Direccion("Laguna de la Niña Encantada", 0, "Fuch"),
-	Direccion("Laguna del Toro", 0, "Fuch"),
-	Direccion("Lago Pulmari", 0, "Fuch"),
-	# BARRIO LA ESTANZUELA
-	Direccion("Telteca", 0, "La Estanzuela"),
-	Direccion("Tilcara", 0, "La Estanzuela"),
-	Direccion("Payer", 0, "La Estanzuela"),
-	Direccion("Mapuche", 0, "La Estanzuela"),
-	Direccion("Trenque Lauquen", 0, "La Estanzuela"),
-	Direccion("Yupanqui", 0, "La Estanzuela"),
-	Direccion("Pte Arturo Illia", 0, "La Estanzuela"),
-	# BARRIO GOBERNADOR BENEGAS
-	Direccion("Artigas", 0, "Gobernador Benegas"),
-	Direccion("Roffo A.", 0, "Gobernador Benegas"),
-	Direccion("Hilario Cuadros", 0, "Gobernador Benegas"),
-	Direccion("Gargilo", 0, "Gobernador Benegas"),
-	Direccion("Feliciani", 0, "Gobernador Benegas"),
-	Direccion("Alfaro", 0, "Gobernador Benegas"),
-	Direccion("Tudela", 0, "Gobernador Benegas"),
-	# BARRIO SAN VICENTE
-	Direccion("Dique Tulumaya", 0, "San Vicente"),
-	Direccion("Chile", 0, "San Vicente"),
-	Direccion("El Nihuil", 0, "San Vicente"),
-	Direccion("Alpatacal", 0, "San Vicente"),
-	Direccion("Los Jacatanda", 0, "San Vicente"),
-	Direccion("Las Casuarinas", 0, "San Vicente"),
-	Direccion("Dique los Nihuiles", 0, "San Vicente"),
-	# BARRIO VILLA HIPÓDROMO
-	Direccion("Pismata", 0, "Villa Hipódromo"),
-	Direccion("El volcan", 0, "Villa Hipódromo"),
-	Direccion("El Vergel", 0, "Villa Hipódromo"),
-	Direccion("Cosquín", 0, "Villa Hipódromo"),
-	Direccion("Pedernera", 0, "Villa Hipódromo"),
-	Direccion("América", 0, "Villa Hipódromo"),
-	Direccion("La Plata", 0, "Villa Hipódromo")
-)
-
-NOMBRES = (
-	"Nicolas",
-	"Jose",
-	"Manuel",
-	"Francisco",
-	"Ciro",
-	"Maria",
-	"Noemi",
-	"Lucia",
-	"Teresa",
-	"Natalia",
-	"Camila",
-	"Thalia",
-	"Alexis",
-	"Sol",
-	"Lucrecio"
-)
-
-
-APELLIDOS =(
-	"Catalano",
-	"Salimeni",
-	"Coria",
-	"Figueroa",
-	"Muratore",
-	"Ortiz",
-	"Perez",
-	"Gonzales",
-	"Matus",
-	"Perez",
-	"Echegaray",
-	"Gomez",
-	"Ruiz",
-	"Manna",
-	"Brizuela"
-)
-
-def cambiarPorcNoVotantes():
-	global PORC_NO_VOTANTES
-
-	azar =  choice([15, 16, 17, 18, 19, 20, 50])
-
-	PORC_NO_VOTANTES = azar
-	
-	return azar
-
-def controlBarrio(barrio):
-	""" Función que permite asignar una escuela para la votación segun el barrio de residencia """
-
-	if barrio == "La Gloria":
-		return "Esc Padre Pedro Arce"
-
-	elif barrio == "Fuch":
-		return "Esc Reyes Catolico"
-
-	elif barrio == "La Estanzuela":
-		return "Esc Profesor Geronimo Sosa"
-
-	elif barrio == "Gobernador Benegas":
-		return "Esc Misiones"
-
-	elif barrio == "San Vicente":
-		return "Esc DR. Americo Cali"
-
-	else:
-		return "Esc Victoria Ocampo"
-
-def generarVotantes():
-	votantes = []
-	for i in range(CANTIDAD_VOTANTES):
-		# Declaro variables con valores aleatorios
-		direccion = choice(DIRECCIONES)
-		padron = Padron(randint(0, 1000), controlBarrio(direccion.barrio), FECHA)
-		direccion.num = randint(0, 1000)
-
-		# Cargo el array con el objeto
-		votantes.append(Votante(
-			choice(NOMBRES),
-			choice(APELLIDOS), 
-			randint(5000000, 48000000), 
-			randint(18, 99), 
-			direccion, 
-			False, 
-			padron)
-		)
-	
-	return votantes
-
-def generarCandidatos():
+def GenerarCandidatos():
     lista = []
     lista300 = []
     lista301 = []
     lista302 = []
     lista222 = []
-    # Creo todos los candidatos de la lista 300 y los agrego a lista que engloba las 4 listas
+    # Creo todos los candidatos de la lista 300 
     lista300.append(Candidato("Tadeo", "Zalazar", 35025896, 35, DIRECCIONES[20], False, controlBarrio(DIRECCIONES[20].barrio), "Intendente", True))
     lista300.append(Candidato("Fabricio", "Cuaranta", 49025894, 44, DIRECCIONES[19], False, controlBarrio(DIRECCIONES[19].barrio), "Consejal", True))
     lista300.append(Candidato("Noelia", "Santino", 49825894, 37, DIRECCIONES[18], False, controlBarrio(DIRECCIONES[18].barrio), "Consejal", True))
@@ -165,7 +24,7 @@ def generarCandidatos():
     lista300.append(Candidato("Érica", "Caciamani", 49025176, 48, DIRECCIONES[11], False, controlBarrio(DIRECCIONES[11].barrio), "Consejal", False))
     lista.append(Lista(PartidoPolitico("Cambia Mendoza"), 300, lista300))
 
-    # Creo todos los candidatos de la lista 301 y los agrego a lista que engloba las 4 listas
+    # Creo todos los candidatos de la lista 301 
     lista301.append(Candidato("Héctor", "Fresina", 29634785, 30, DIRECCIONES[10], False, controlBarrio(DIRECCIONES[10].barrio), "Intendente", True))
     lista301.append(Candidato("Manuel", "Tello", 49561894, 44, DIRECCIONES[9], False, controlBarrio(DIRECCIONES[9].barrio), "Consejal", True))
     lista301.append(Candidato("Martina", "Rivero", 59825794, 37, DIRECCIONES[8], False, controlBarrio(DIRECCIONES[8].barrio), "Consejal", True))
@@ -178,7 +37,7 @@ def generarCandidatos():
     lista301.append(Candidato("Celia", "Segal", 29221171, 47, DIRECCIONES[1], False, controlBarrio(DIRECCIONES[1].barrio), "Consejal", False))
     lista.append(Lista(PartidoPolitico("Frente de izquierda"), 301, lista301))
 
-    # Creo todos los candidatos de la lista 302 y los agrego a lista que engloba las 4 listas
+    # Creo todos los candidatos de la lista 302 
     lista302.append(Candidato("Andrea", "Blandini", 55078897, 55, DIRECCIONES[26], False, controlBarrio(DIRECCIONES[26].barrio), "Intendente", True))
     lista302.append(Candidato("Gabriela", "Malina", 49565894, 44, DIRECCIONES[25], False, controlBarrio(DIRECCIONES[25].barrio), "Consejal", True))
     lista302.append(Candidato("Cristian", "Ramo", 59825894, 37, DIRECCIONES[24], False, controlBarrio(DIRECCIONES[24].barrio), "Consejal", True))
@@ -191,7 +50,7 @@ def generarCandidatos():
     lista302.append(Candidato("Federico", "Vilches", 29025171, 52, DIRECCIONES[30], False, controlBarrio(DIRECCIONES[30].barrio), "Consejal", False))
     lista.append(Lista(PartidoPolitico("Eleguí Mendoza"), 302, lista302))
 
-    # Creo todos los candidatos de la lista 222 y los agrego a lista que engloba las 4 listas
+    # Creo todos los candidatos de la lista 222 
     lista222.append(Candidato("Leonardo", "Verdini", 47568932, 45, DIRECCIONES[31], False, controlBarrio(DIRECCIONES[31].barrio), "Intendente", True))
     lista222.append(Candidato("Mauro", "Cesar", 49521824, 34, DIRECCIONES[32], False, controlBarrio(DIRECCIONES[32].barrio), "Consejal", True))
     lista222.append(Candidato("Maria", "Fozzatti", 50825094, 57, DIRECCIONES[33], False, controlBarrio(DIRECCIONES[33].barrio), "Consejal", True))
@@ -205,53 +64,3 @@ def generarCandidatos():
     lista.append(Lista(PartidoPolitico("Protectora"), 222, lista222))
 
     return lista
-
-def candidatosAzar():
-	lista = [0, 1, 2, 3]
-	listaAlAzar = []
-	listaFinal = []
-
-	for i in range(4):
-		num = choice(lista)
-		listaAlAzar.append(num)
-		lista.remove(num)
-	
-	for i in range(4):
-		if i == 0:
-			listaFinal.extend([listaAlAzar[i]] * 45)
-		elif i == 1:
-			listaFinal.extend([listaAlAzar[i]] * 35)
-		else:
-			listaFinal.extend([listaAlAzar[i]] * 10)
-	return listaFinal
-
-def generarVotos(votantes, listas, porcNoVotantes=PORC_NO_VOTANTES):
-    listaVotos = []
-    # Lista que permitira crear con desigualdad los votos
-    # impugnados = 1%, blacos = 10%, validos = 89%
-    my_list = [2] * 1 + [1] * 10 + [3] * 89
-    numAlAzar = 0   
-    
-    # Convierto el porcentaje de no votantes a un nº
-    cantidadNoVotantes = (porcNoVotantes * len(votantes)) / 100
-    contador = 0
-
-    # Genero un arrey para que las votaciones a una determinada lista no sea pareja
-    elejirLista = candidatosAzar()
-    for votante in votantes:
-		# Variable para que los no votantes sean al azars
-        azar = choice([1, 2, 2])
-        if azar == 1 and contador < cantidadNoVotantes:
-            contador+= 1
-        else:
-            votante.voto = True
-            numAlAzar = choice(my_list)
-            if numAlAzar == 1:
-                listaVotos.append(Voto(listas[choice(elejirLista)], blanco= True))
-            elif numAlAzar == 2:
-                listaVotos.append(Voto(listas[choice(elejirLista)], impugnado = True))
-            else:
-                listaVotos.append(Voto(listas[choice(elejirLista)], valido = True))
-
-    return listaVotos
-    
